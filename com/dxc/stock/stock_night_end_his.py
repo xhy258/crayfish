@@ -54,15 +54,10 @@ def worker(stock):
 
                     if all(day3_diff > day3_open * 0.04) and day3_open < day2_close and day3_open > day3_close and day3_min < day1_close and day3_close.size > 0:
                         # 判断是否是10天以来的最高价,实质上的要求是20天，可修改范围
-                        data_center = 0
-                        for i in range(10):
-                            if all(data_center < df.iloc[(k - i):(k - i + 1)]['high'].values):
-                                # print(i)
-                                # print(df.iloc[(k-i):(k-i+1)]['high'].values)
-                                data_center = df.iloc[(k - i):(k - i + 1)]['high'].values
-                                # print(data_center)
-                        if all(data_center <= day_data['high'].values):
-                            print('night end stock: ', day_data['date'].values, stock)
+                           data_center=max(df.iloc[(k-10):k]['high'].values)
+                        # print(data_center)
+                           if all(data_center<= day_data['high'].values):
+                              print('night end stock: ', day_data['date'].values, stock)
                             # 执行SQL
                             # print("sql engine:", engine, stock, day3_date[0])
                             # cur = engine.execute(
